@@ -1,6 +1,6 @@
-class CreateTransactions < ActiveRecord::Migration[7.0]
+class CreateTransfers < ActiveRecord::Migration[7.0]
   def change
-    create_table :transactions do |t|
+    create_table :transfers do |t|
       t.references :sender, null: false, foreign_key: { to_table: 'wallets' }
       t.references :recipient, null: false, foreign_key: { to_table: 'wallets' }
       t.integer :amount, null: false

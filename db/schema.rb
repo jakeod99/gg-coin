@@ -20,8 +20,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_06_144631) do
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "wallet_id", null: false
-    t.index ["wallet_id"], name: "index_auction_items_on_wallet_id"
   end
 
   create_table "prizes", force: :cascade do |t|
@@ -32,11 +30,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_06_144631) do
     t.integer "activation_status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "wallet_id", null: false
-    t.index ["wallet_id"], name: "index_prizes_on_wallet_id"
   end
 
-  create_table "transactions", force: :cascade do |t|
+  create_table "transfers", force: :cascade do |t|
     t.bigint "sender_id", null: false
     t.bigint "recipient_id", null: false
     t.integer "amount", null: false
@@ -44,8 +40,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_06_144631) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["recipient_id"], name: "index_transactions_on_recipient_id"
-    t.index ["sender_id"], name: "index_transactions_on_sender_id"
+    t.index ["recipient_id"], name: "index_transfers_on_recipient_id"
+    t.index ["sender_id"], name: "index_transfers_on_sender_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -59,10 +55,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_06_144631) do
     t.string "last_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "wallet_id", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["wallet_id"], name: "index_users_on_wallet_id"
   end
 
   create_table "wallets", force: :cascade do |t|
@@ -71,12 +65,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_06_144631) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "handle"
+    t.bigint "user_id"
     t.index ["handle"], name: "index_wallets_on_handle", unique: true
+    t.index ["user_id"], name: "index_wallets_on_user_id"
   end
 
-  add_foreign_key "auction_items", "wallets"
-  add_foreign_key "prizes", "wallets"
-  add_foreign_key "transactions", "wallets", column: "recipient_id"
-  add_foreign_key "transactions", "wallets", column: "sender_id"
-  add_foreign_key "users", "wallets"
+  add_foreign_key "transfers", "wallets", column: "recipient_id"
+  add_foreign_key "transfers", "wallets", column: "sender_id"
+  add_foreign_key "wallets", "users"
 end

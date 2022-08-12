@@ -1,4 +1,4 @@
-class Transaction < ApplicationRecord
+class Transfer < ApplicationRecord
   has_one :from, class: "Wallet"
   has_one :to, class: "Wallet"
 

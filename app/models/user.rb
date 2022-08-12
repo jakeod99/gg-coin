@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   
   has_one :wallet
+  accepts_nested_attributes_for :wallet
   
   enum role: [:standard, :admin]
 
@@ -21,5 +22,10 @@ class User < ApplicationRecord
     else 
       self.role ||= :standard
     end
+  end
+
+  def with_wallet
+    build_wallet if wallet.nil?
+    self
   end
 end

@@ -75,3 +75,7 @@ group :test do
 end
 
 gem "devise", "~> 4.8"
+
+gem "nested_form", "~> 0.3.2"
+
+gem "pry-byebug", "~> 3.9"
