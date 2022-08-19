@@ -14,13 +14,13 @@ class User < ApplicationRecord
     'odonnell.rick@gmail.com'
   ]
 
-  after_initialize :set_default_role, :if => :new_record?
+  after_initialize :set_role, :if => :new_record?
 
-  def set_default_role
+  def set_role
     if self.email.in? ADMIN_EMAIL_LIST
-      self.role ||= :admin
+      self.role = :admin
     else 
-      self.role ||= :standard
+      self.role = :standard
     end
   end
 

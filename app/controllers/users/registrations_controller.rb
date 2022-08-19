@@ -10,9 +10,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    super
+  rescue ActiveRecord::RecordNotUnique => e 
+    resource.errors.add( # super janky approach
+      :email, 
+      :not_unique, 
+      message: "cannot register with \"" + resource.wallet.handle + "\", this handle is taken"
+    )
+    respond_with resource
+  end
 
   # GET /resource/edit
   # def edit
